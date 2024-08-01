@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VideoProvider;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
@@ -20,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         $products=Product::getAllProduct();
-     
+
         return view('backend.product.index')->with('products',$products);
     }
 
@@ -33,8 +34,9 @@ class ProductController extends Controller
     {
         $brand=Brand::get();
         $category=Category::where('is_parent',1)->get();
+        $videoproviders =VideoProvider::where('status',1)->get();
         // return $category;
-        return view('backend.product.create')->with('categories',$category)->with('brands',$brand);
+        return view('backend.product.create')->with('categories',$category)->with('brands',$brand)->with('videoproviders',$videoproviders);
     }
 
     /**
@@ -47,9 +49,9 @@ class ProductController extends Controller
     {
         // return $request->all();
         $this->validate($request,[
-            'title'=>'string|required',            
+            'title'=>'string|required',
             'description'=>'string|required',
-            'photo'=>'required|image|mimes:jpeg,png', 
+            'photo'=>'required|image|mimes:jpeg,png',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
             'brand_id'=>'nullable|exists:brands,id',
@@ -61,7 +63,7 @@ class ProductController extends Controller
         ]);
 
         // Get the uploaded file
-        $file = $request->file('photo'); 
+        $file = $request->file('photo');
           // Check if the file is valid
           if (!$file->isValid()) {
             return response()->json(['message' => 'Invalid file upload.'], 400);
@@ -72,10 +74,10 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Image source not readable.'], 400);
         }
-        $webpImage = $image->encode('webp'); 
+        $webpImage = $image->encode('webp');
         $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.webp';
-        $filePath = 'photos/1/Products/' . $fileName; 
-        Storage::disk('public')->put($filePath, $webpImage); 
+        $filePath = 'photos/1/Products/' . $fileName;
+        Storage::disk('public')->put($filePath, $webpImage);
 
         $data=$request->all();
         $slug=Str::slug($request->title);
@@ -84,7 +86,7 @@ class ProductController extends Controller
             $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
         }
         $data['slug']=$slug;
-        $data['is_featured']=$request->input('is_featured',0); 
+        $data['is_featured']=$request->input('is_featured',0);
         $data['photo']      = '/storage/'.$filePath;
         $status=Product::create($data);
         if($status){
@@ -183,7 +185,7 @@ class ProductController extends Controller
     {
         $product=Product::findOrFail($id);
         $status=$product->delete();
-        
+
         if($status){
             request()->session()->flash('success','Product successfully deleted');
         }

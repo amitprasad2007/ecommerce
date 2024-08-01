@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label for="is_featured">Is Featured</label><br>
-                <input type="checkbox" name='is_featured' id='is_featured' value='1' checked> Yes                        
+                <input type="checkbox" name='is_featured' id='is_featured' value='1' checked> Yes
             </div>
             <div class="form-group">
                 <label for="cat_id">Category <span class="text-danger">*</span></label>
@@ -65,7 +65,7 @@
                 @error('discount')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
-            </div> 
+            </div>
             <div class="form-group">
                 <label for="brand_id">Brand</label>
                 <select name="brand_id" class="form-control">
@@ -76,11 +76,51 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="stock">Unit price <span class="text-danger">*</span></label>
+                <input id="quantity" type="number" name="stock" min="0" placeholder="Enter Unit price" value="{{old('stock')}}" class="form-control">
+                @error('stock')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="stock">Purchase price <span class="text-danger">*</span></label>
+                <input id="quantity" type="number" name="stock" min="0" placeholder="Enter Purchase price" value="{{old('stock')}}" class="form-control">
+                @error('stock')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="stock">Tax <span class="text-danger">*</span></label>
+                <input id="quantity" type="number" name="stock" min="0" placeholder="Enter Tax" value="{{old('stock')}}" class="form-control">
+                @error('stock')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="stock">Discount <span class="text-danger">*</span></label>
+                <input id="quantity" type="number" name="stock" min="0" placeholder="Enter Discount" value="{{old('stock')}}" class="form-control">
+                @error('stock')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <label for="stock">Quantity <span class="text-danger">*</span></label>
                 <input id="quantity" type="number" name="stock" min="0" placeholder="Enter quantity" value="{{old('stock')}}" class="form-control">
                 @error('stock')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
+            </div>
+            <div class="form-group row">
+                <label class="form-group" style="margin-left: 15px;" for="stock">Product Videos </label>
+                <select name="video_provider" class="p-2 col-md-4 form-control" style="margin-left: 16px;">
+                    <option value="">--Video Provider--</option>
+                    @foreach($videoproviders as $videoprovider)
+                        <option value="{{$videoprovider->id}}">{{$videoprovider->name}}</option>
+                    @endforeach
+                </select>
+                <label class="form-group" style="margin-left: 15px;" for="stock"> Video Link </label>
+                <input id="videolink" type="text" name="videolink" min="0" placeholder="Enter Video Link" style="margin-left: 16px;" value="{{old('videolink')}}" class="p-2 col-md-4 form-control">
             </div>
             <div class="form-group">
                 <label for="inputPhoto" class="col-form-label">Photo <span class="text-danger">*</span></label>
