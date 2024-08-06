@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
 
             $table->integer('todays_deal');
-            $table->integer('published');
+            $table->string('sku');
             $table->string('unit')->nullable();
             $table->integer('min_qty');
             $table->double('tax', 8, 2);
