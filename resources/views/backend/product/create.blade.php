@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label for="inputsku" class="col-form-label">SKU <span class="text-danger">*</span></label>
-                <input id="inputsku" type="text" name="sku" placeholder="Enter SKU" value="{{old('sku')}}" class="form-control">
+                <input id="inputsku" type="text" name="sku"  placeholder="Enter SKU" value="{{old('sku')}}" class="form-control">
                 @error('sku')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
@@ -46,10 +46,6 @@
                     <option value='{{$cat_data->id}}'>{{$cat_data->title}}</option>
                     @endforeach
                 </select>
-            </div>
-            <div class="form-group">
-                <label for="slug" class="col-form-label">Slug </label>
-                <input id="slug" type="text" name="slug" placeholder="Enter slug" value="{{old('slug')}}" class="form-control">
             </div>
             <div class="form-group d-none" id="child_cat_div">
                 <label for="child_cat_id">Sub Category</label>
@@ -64,16 +60,13 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="slug" class="col-form-label">Slug </label>
+                <input id="slug" type="text" name="slug" placeholder="Enter slug" value="{{old('slug')}}" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="price" class="col-form-label">Price(NRS) <span class="text-danger">*</span></label>
                 <input id="price" type="number" name="price" placeholder="Enter price" value="{{old('price')}}" class="form-control">
                 @error('price')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="discount" class="col-form-label">Discount(%)</label>
-                <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Enter discount" value="{{old('discount')}}" class="form-control">
-                @error('discount')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
@@ -89,7 +82,7 @@
             <div class="form-group">
                 <label for="stock">Purchase price <span class="text-danger">*</span></label>
                 <input id="purchase_price" type="number" id="purchase_price" name="stock" min="0" placeholder="Enter Purchase price" value="{{old('purchase_price')}}" class="form-control">
-                @error('stock')
+                @error('purchase_price')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
@@ -98,7 +91,7 @@
                 <input type="text" id="tag" name="tag"  placeholder="Enter Product Tag" value="{{old('tag')}}" class="form-control">
             </div>
             <div class="form-group row ">
-                <label for="stock" style="margin-left: 15px;">Tax <span class="text-danger">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <label for="stock" style="margin-left: 15px;">Tax &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <input id="tax" type="number" name="tax" min="0" placeholder="Enter Tax" value="{{old('tax')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
                 <select name="taxtype" id="taxtype" class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
                     <option value="flat">Flat</option>
@@ -106,18 +99,17 @@
                 </select>
             </div>
             <div class="form-group row">
-                <label for="stock" style="margin-left: 15px;">Discount <span class="text-danger">*</span></label>
-                <input id="discount" type="number" name="discount" min="0" placeholder="Enter Discount" value="{{old('discount')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
+                <label for="stock" style="margin-left: 15px;">Discount(%)</label>
+                <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Enter discount" value="{{old('discount')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
                 <select name="discounttype" id="discounttype"  class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
                     <option value="flat">Flat</option>
                     <option value="percent">Percent</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label for="stock">Quantity <span class="text-danger">*</span></label>
+                <label for="quantity">Quantity <span class="text-danger">*</span></label>
                 <input id="quantity" type="number" name="quantity" min="0" placeholder="Enter quantity" value="{{old('quantity')}}" class="form-control">
-                @error('stock')
+                @error('quantity')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
