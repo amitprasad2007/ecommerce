@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="895ade45-042c-4204-9a73-5ee36f1c72e6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProductController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2024_07_31_165104_add_new_column_to_products.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2024_07_31_165104_add_new_column_to_products.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/backend/product/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/product/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/backend/product/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/backend/product/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,7 +204,7 @@
       <option name="presentableId" value="Default" />
       <updated>1723013978810</updated>
       <workItem from="1723013980358" duration="2136000" />
-      <workItem from="1723179915185" duration="6549000" />
+      <workItem from="1723179915185" duration="7721000" />
     </task>
     <servers />
   </component>
