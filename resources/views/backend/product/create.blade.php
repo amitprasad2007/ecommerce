@@ -90,7 +90,7 @@
                 @enderror
             </div>
             <div class="form-group row">
-                <label for="discount" style="margin-left: 15px;">Shipping Cost</label>
+                <label for="discount" style="margin-left: 15px;">Shipping Cost <span class="text-danger">*</span></label>
                 <input id="shipping_cost" type="number" name="shipping_cost" min="0" max="100" placeholder="Enter Shipping Cost" value="{{old('shipping_cost')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
                 <select name="shipping_type" id="shipping_type"  class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
                     <option selected disabled value="flat">Flat</option>
@@ -101,7 +101,7 @@
                 <input type="text" id="tags" name="tags"  placeholder="Enter Product Tag" value="{{old('tags')}}" class="form-control">
             </div>
             <div class="form-group row ">
-                <label for="tax" style="margin-left: 15px;">Tax &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <label for="tax" style="margin-left: 15px;">Tax <span class="text-danger">*</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <input id="tax" type="number" name="tax" min="0" placeholder="Enter Tax" value="{{old('tax')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
                 <select name="tax_type" id="tax_type" class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
                     <option value="flat">Flat</option>
@@ -111,9 +111,9 @@
             <div class="form-group row">
                 <label for="discount" style="margin-left: 15px;">Discount(%)</label>
                 <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Enter discount" value="{{old('discount')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
-                <select name="discounttype" id="discounttype"  class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
-                    <option value="flat">Flat</option>
-                    <option value="percent">Percent</option>
+                <select  name="discounttype" id="discounttype"  class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
+                    <option disabled value="flat">Flat</option>
+                    <option selected  value="percent">Percent</option>
                 </select>
             </div>
             <div class="form-group">
@@ -184,7 +184,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="inputPdf" class="col-form-label">Pdf File </label>
+                <label for="inputPdf" class="col-form-label">Pdf Specification </label>
                 <div class="input-group">
                     <span class="input-group-btn">
                         <input type="file" name="pdf" id="pdf-input" accept="application/pdf/*">

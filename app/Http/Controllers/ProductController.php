@@ -47,19 +47,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
+        // dd($request->all());
         $this->validate($request,[
             'title'=>'string|required',
+            'slug'=>'string|required',
+            'sku'=>'string|required',
             'description'=>'string|required',
             'photo'=>'required|image|mimes:jpeg,png',
             'stock'=>"required|numeric",
+            'min_qty'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
             'brand_id'=>'nullable|exists:brands,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
             'status'=>'required|in:active,inactive',
             'price'=>'required|numeric',
-            'discount'=>'nullable|numeric'
+            'shipping_cost'=>'required|numeric',
+            'tax'=>'required|numeric',
+            'discount'=>'nullable|numeric',
+            'meta_title'=>'string|required',
+            'meta_description'=>'string|required',
+            'pdf' => 'required|mimes:pdf|max:10000',
         ]);
 
         // Get the uploaded file
@@ -79,15 +87,24 @@ class ProductController extends Controller
         $filePath = 'photos/1/Products/' . $fileName;
         Storage::disk('public')->put($filePath, $webpImage);
 
-        $data=$request->all();
-        $slug=Str::slug($request->title);
-        $count=Product::where('slug',$slug)->count();
-        if($count>0){
-            $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
+        $filepdf = $request->file('pdf');
+        if (!$filepdf->isValid()) {
+            return response()->json(['message' => 'Invalid file upload.'], 400);
         }
-        $data['slug']=$slug;
-        $data['is_featured']=$request->input('is_featured',0);
+        $fileNamepdf = pathinfo($filepdf->getClientOriginalName(), PATHINFO_FILENAME) . '.pdf';
+        $filePathpdf = 'files/pdf/' . $fileNamepdf;
+        Storage::disk('public')->put($filePathpdf, file_get_contents($filepdf));
+
+        $data=$request->all();
+//        $slug=Str::slug($request->title);
+//        $count=Product::where('slug',$slug)->count();
+//        if($count>0){
+//            $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
+//        }
+//        $data['slug']=$slug;
+//        $data['is_featured']=$request->input('is_featured',0);
         $data['photo']      = '/storage/'.$filePath;
+        $data['pdf']      = '/storage/'.$filePathpdf;
         $status=Product::create($data);
         if($status){
             request()->session()->flash('success','Product Successfully added');

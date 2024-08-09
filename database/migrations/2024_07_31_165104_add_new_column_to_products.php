@@ -28,6 +28,8 @@ return new class extends Migration
             $table->float('purchase_price');
             $table->mediumText('tags')->nullable();
             $table->string('video_link')->nullable();
+            $table->unsignedBigInteger('sub_child_cat_id')->nullable();
+            $table->foreign('sub_child_cat_id')->references('id')->on('categories')->onDelete('SET NULL');
             $table->unsignedBigInteger('video_provider_id')->nullable();
             $table->foreign('video_provider_id')->references('id')->on('video_providers')->onDelete('SET NULL');
         });
