@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
 
-            $table->integer('todays_deal');
+            $table->integer('todays_deal')->default(0);
             $table->string('sku');
             $table->string('unit')->nullable();
-            $table->integer('min_qty');
-            $table->double('tax', 8, 2);
+            $table->integer('min_qty')->default(0);
+            $table->double('tax', 8, 2)->default(0.00);
             $table->string('tax_type')->nullable();
             $table->string('shipping_type')->nullable();
-            $table->double('shipping_cost', 8, 2);
-            $table->mediumText('meta_title');
-            $table->longText('meta_description');
+            $table->double('shipping_cost', 8, 2)->default(0);
+            $table->mediumText('meta_title')->nullable();
+            $table->longText('meta_description')->nullable();
             $table->string('pdf')->nullable();
-            $table->double('rating', 8, 2);
+            $table->double('rating', 8, 2)->default(0.00);
             $table->float('purchase_price');
             $table->mediumText('tags')->nullable();
             $table->string('video_link')->nullable();
