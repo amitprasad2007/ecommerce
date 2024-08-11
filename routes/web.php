@@ -165,6 +165,7 @@ Route::get('/test-logging', function () {
 
 
         // Product
+        Route::delete('/products/bulk-delete', [ProductController::class, 'bulkDelete'])->name('product.bulkDelete');
         Route::resource('/product', ProductController::class);
         // Ajax for sub category
         Route::post('/category/{id}/child', 'CategoryController@getChildByParent');

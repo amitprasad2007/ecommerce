@@ -7,11 +7,14 @@
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Product Lists</h6>
       <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Product</a>
-        <div class="form-group d-none " id="child_cat_div">
-            <input type="button" class="btn-danger btn-sm float-right mr-2" value="Delect Selected">
-        </div>
+        <form id="deleteForm" action="{{ route('product.bulkDelete') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <div class="form-group d-none " id="selectedeletedbtn">
+                <input type="button" class="btn-danger btn-sm float-right mr-2" value="Delect Selected">
+            </div>
+        </form>
     </div>
-
      @if (session('success'))
          <div class="alert alert-success">
              {{ session('success') }}
@@ -24,7 +27,8 @@
           <thead>
             <tr>
                 <th>
-                        <input name="Selectall" id="Selectall" type="checkbox" value="" onclick="selectall(this.value)" /><span class="text">Select All</span>
+                    <input name="Selectall" id="Selectall" type="checkbox" value="" onclick="selectall(this)" />
+                    <span class="text">Select All</span>
                 </th>
               <th>S.N.</th>
               <th>Title</th>
@@ -41,8 +45,7 @@
           </thead>
           <tfoot>
             <tr>
-                <th  >
-                        <input name="Selectall" id="Selectall" type="checkbox" value="" onclick="selectall(this.value)" /><span class="text">Select All</span>
+                <th >
                 </th>
               <th>S.N.</th>
               <th>Title</th>
@@ -65,8 +68,9 @@
               $brands=DB::table('brands')->select('title')->where('id',$product->brand_id)->get();
               @endphp
                 <tr>
-                    <td width=10% style="padding-left:25px;padding-top:12px;" >
-                        <input name="STCODE" id="STCODE" type="checkbox"  value="" /><span class="text"></span>
+                    <td width="10%" style="padding-left:25px;padding-top:12px;">
+                        <input name="product_ids[]" id="product_ids" type="checkbox" value="{{ $product->id }}" class="selectable-checkbox" />
+                        <span class="text"></span>
                     </td>
                     <td>{{$product->id}}</td>
                     <td>{{$product->title}}</td>
@@ -161,7 +165,6 @@
                 }
             ]
         } );
-
         // Sweet alert
 
         function deleteData(id){
@@ -196,5 +199,25 @@
                 });
           })
       })
+      function selectall(selectAllCheckbox) {
+          let checkboxes = document.querySelectorAll('input[name="product_ids[]"]');
+          checkboxes.forEach(function(checkbox) {
+              checkbox.checked = selectAllCheckbox.checked;
+          });
+          toggleDeleteButton();
+      }
+      document.querySelectorAll('input[name="product_ids[]"]').forEach(function(checkbox) {
+          checkbox.addEventListener('change', toggleDeleteButton);
+      });
+      function toggleDeleteButton() {
+          let selectedCheckboxes = document.querySelectorAll('input[name="product_ids[]"]:checked');
+          let deleteButton = document.getElementById('selectedeletedbtn');
+          if (selectedCheckboxes.length > 0) {
+              deleteButton.classList.remove('d-none');
+          } else {
+              deleteButton.classList.add('d-none');
+              $('#Selectall').prop('checked', false);
+          }
+      }
   </script>
 @endpush
