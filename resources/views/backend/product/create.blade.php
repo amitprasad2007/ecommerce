@@ -93,7 +93,7 @@
                 <label for="discount" style="margin-left: 15px;">Shipping Cost <span class="text-danger">*</span></label>
                 <input id="shipping_cost" type="number" name="shipping_cost" min="0" max="100" placeholder="Enter Shipping Cost" value="{{old('shipping_cost')}}" class="p-2 col-md-5 form-control" style="margin-left: 16px;">
                 <select name="shipping_type" id="shipping_type"  class=" p-2 col-md-3 form-control" style="margin-left: 30px;" >
-                    <option selected disabled value="flat">Flat</option>
+                    <option selected  value="flat">Flat</option>
                 </select>
             </div>
             <div class="form-group">

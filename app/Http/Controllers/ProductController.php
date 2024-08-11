@@ -96,6 +96,7 @@ class ProductController extends Controller
         Storage::disk('public')->put($filePathpdf, file_get_contents($filepdf));
 
         $data=$request->all();
+        //  dd($data);
 //        $slug=Str::slug($request->title);
 //        $count=Product::where('slug',$slug)->count();
 //        if($count>0){
