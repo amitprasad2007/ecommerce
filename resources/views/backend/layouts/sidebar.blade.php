@@ -81,6 +81,7 @@
             <h6 class="collapse-header">Product Options:</h6>
             <a class="collapse-item" href="{{route('product.index')}}">Products</a>
             <a class="collapse-item" href="{{route('product.create')}}">Add Product</a>
+              <a class="collapse-item" href="{{route('product.excelupload')}}">Add Bulkupload</a>
           </div>
         </div>
     </li>
@@ -129,7 +130,7 @@
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
     </li>
-    
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">

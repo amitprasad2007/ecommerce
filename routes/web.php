@@ -163,8 +163,9 @@ Route::get('/test-logging', function () {
 
         // Backend section start
 
-
+        Route::get('bulkexcelupload',[ProductController::class, 'excelupload'])->name('product.excelupload');
         // Product
+        Route::post('/products/bulk-upload', [ProductController::class, 'bulkUpload'])->name('product.bulkUpload');
         Route::delete('/products/bulk-delete', [ProductController::class, 'bulkDelete'])->name('product.bulkDelete');
         Route::resource('/product', ProductController::class);
         // Ajax for sub category

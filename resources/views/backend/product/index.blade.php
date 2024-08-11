@@ -10,9 +10,7 @@
         <form id="deleteForm" action="{{ route('product.bulkDelete') }}" method="POST">
             @csrf
             @method('DELETE')
-            <div class="form-group d-none " id="selectedeletedbtn">
-                <input type="button" class="btn-danger btn-sm float-right mr-2" value="Delect Selected">
-            </div>
+            <button type="submit" id="selectedeletedbtn" class="btn btn-danger btn-sm mr-2 float-right d-none dltBtn">Delete Selected</button>
         </form>
     </div>
      @if (session('success'))
@@ -69,7 +67,7 @@
               @endphp
                 <tr>
                     <td width="10%" style="padding-left:25px;padding-top:12px;">
-                        <input name="product_ids[]" id="product_ids" type="checkbox" value="{{ $product->id }}" class="selectable-checkbox" />
+                        <input name="product_ids[]" id="STCODE" type="checkbox" value="{{ $product->id }}" class="selectable-checkbox" />
                         <span class="text"></span>
                     </td>
                     <td>{{$product->id}}</td>
@@ -125,6 +123,7 @@
         @endif
       </div>
     </div>
+
 </div>
 @endsection
 
@@ -198,26 +197,52 @@
                     }
                 });
           })
+
       })
       function selectall(selectAllCheckbox) {
           let checkboxes = document.querySelectorAll('input[name="product_ids[]"]');
           checkboxes.forEach(function(checkbox) {
               checkbox.checked = selectAllCheckbox.checked;
           });
+
+          updateHiddenFields();
           toggleDeleteButton();
       }
+
       document.querySelectorAll('input[name="product_ids[]"]').forEach(function(checkbox) {
-          checkbox.addEventListener('change', toggleDeleteButton);
+          checkbox.addEventListener('change', function() {
+              updateHiddenFields();
+              toggleDeleteButton();
+          });
       });
+
+      function updateHiddenFields() {
+          // Clear existing hidden fields
+          document.querySelectorAll('#deleteForm input[name="product_ids[]"]').forEach(function(hiddenField) {
+              hiddenField.remove();
+          });
+
+          // Add hidden fields for selected checkboxes
+          document.querySelectorAll('input[name="product_ids[]"]:checked').forEach(function(checkbox) {
+              let hiddenInput = document.createElement('input');
+              hiddenInput.type = 'hidden';
+              hiddenInput.name = 'product_ids[]';
+              hiddenInput.value = checkbox.value;
+              document.getElementById('deleteForm').appendChild(hiddenInput);
+          });
+      }
+
       function toggleDeleteButton() {
           let selectedCheckboxes = document.querySelectorAll('input[name="product_ids[]"]:checked');
           let deleteButton = document.getElementById('selectedeletedbtn');
+
           if (selectedCheckboxes.length > 0) {
               deleteButton.classList.remove('d-none');
           } else {
-              deleteButton.classList.add('d-none');
               $('#Selectall').prop('checked', false);
+              deleteButton.classList.add('d-none');
           }
       }
   </script>
 @endpush
+

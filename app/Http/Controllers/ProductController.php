@@ -223,12 +223,15 @@ class ProductController extends Controller
     public function bulkDelete(Request $request)
     {
         $productIds = $request->input('product_ids', []);
-        dd($productIds);
         if (!empty($productIds)) {
             Product::whereIn('id', $productIds)->delete();
             return redirect()->route('product.index')->with('success', 'Selected products deleted successfully!');
         }
         return redirect()->route('product.index')->with('error', 'No products selected.');
+    }
+    public function excelupload()
+    {
+        return view('backend.product.bulkupload');
     }
 
 }
