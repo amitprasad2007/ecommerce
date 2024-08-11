@@ -47,8 +47,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $this->validate($request,[
+
+        $validatedData =  $this->validate($request,[
             'title'=>'string|required',
             'slug'=>'string|required',
             'sku'=>'string|required',
@@ -69,7 +69,6 @@ class ProductController extends Controller
             'meta_description'=>'string|required',
             'pdf' => 'required|mimes:pdf|max:10000',
         ]);
-
         // Get the uploaded file
         $file = $request->file('photo');
           // Check if the file is valid
@@ -138,12 +137,14 @@ class ProductController extends Controller
     {
         $brand=Brand::get();
         $product=Product::findOrFail($id);
+        $videoproviders =VideoProvider::where('status',1)->get();
        // dd($product);
         $category=Category::where('is_parent',1)->get();
         $items=Product::where('id',$id)->get();
         // return $items;
         return view('backend.product.edit')->with('product',$product)
                     ->with('brands',$brand)
+                    ->with('videoproviders',$videoproviders)
                     ->with('categories',$category)->with('items',$items);
     }
 
@@ -157,33 +158,38 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product=Product::findOrFail($id);
-        $this->validate($request,[
+       // dd($product);
+        $validatedData = $this->validate($request,[
             'title'=>'string|required',
-            'summary'=>'string|required',
             'description'=>'string|nullable',
             'photo'=>'string|required',
-            'size'=>'nullable',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
             'brand_id'=>'nullable|exists:brands,id',
             'status'=>'required|in:active,inactive',
-            'condition'=>'required|in:default,new,hot',
             'price'=>'required|numeric',
-            'discount'=>'nullable|numeric'
+            'discount'=>'nullable|numeric',
+            'slug'=>'string|required',
+            'sku'=>'string|required',
+            'min_qty'=>"required|numeric",
+            'shipping_cost'=>'required|numeric',
+            'tax'=>'required|numeric',
+            'meta_title'=>'string|required',
+            'meta_description'=>'string|required'
         ]);
-
+   // dd( $validatedData );
         $data=$request->all();
-        $data['is_featured']=$request->input('is_featured',0);
-        $size=$request->input('size');
-        if($size){
-            $data['size']=implode(',',$size);
-        }
-        else{
-            $data['size']='';
-        }
-        // return $data;
+       // $data['is_featured']=$request->input('is_featured',0);
+//        $size=$request->input('size');
+//        if($size){
+//            $data['size']=implode(',',$size);
+//        }
+//        else{
+//            $data['size']='';
+//        }
+//        // return $data;
         $status=$product->fill($data)->save();
         if($status){
             request()->session()->flash('success','Product Successfully updated');

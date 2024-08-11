@@ -1,6 +1,7 @@
 <?php
 
-    use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
     use Illuminate\Support\Facades\Artisan;
     use App\Http\Controllers\AdminController;
     use App\Http\Controllers\CategoryController;
@@ -126,7 +127,7 @@ Route::get('/test-logging', function () {
     Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
 
 
-        
+
     Route::prefix('admin')->group(function () {
     // Backend section start
     Route::get('/category/subcategory', [CategoryController::class, 'subCategory'])->name('admin.category.subcategory');
@@ -134,14 +135,14 @@ Route::get('/test-logging', function () {
     Route::get('/category/create-subcategory', [CategoryController::class, 'subcreate'])->name('admin.category.subcreate');
     Route::get('/category/create-subsubcategory', [CategoryController::class, 'subsubcreate'])->name('admin.category.subsubcreate');
     Route::get('/category/{id}/subedit', [CategoryController::class, 'subedit'])->name('admin.category.subedit');
-    Route::get('/category/{id}/subsubedit', [CategoryController::class, 'subsubedit'])->name('admin.category.subsubedit'); 
+    Route::get('/category/{id}/subsubedit', [CategoryController::class, 'subsubedit'])->name('admin.category.subsubedit');
 
     Route::get('/category/get-subcategories/{parent_id}', [CategoryController::class, 'getSubCategories'])->name('admin.category.getSubCategories');
 
-     
+
    });
 
-        
+
 
     Route::group(['prefix' => '/admin', 'middleware' => ['auth', 'admin']], function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin');
@@ -161,10 +162,10 @@ Route::get('/test-logging', function () {
         Route::resource('/category', 'CategoryController');
 
         // Backend section start
-       
+
 
         // Product
-        Route::resource('/product', 'ProductController');
+        Route::resource('/product', ProductController::class);
         // Ajax for sub category
         Route::post('/category/{id}/child', 'CategoryController@getChildByParent');
         Route::post('/category/{id}/subchild', 'CategoryController@getSubChildCategories');

@@ -7,13 +7,25 @@
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Product Lists</h6>
       <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Product</a>
+        <div class="form-group d-none " id="child_cat_div">
+            <input type="button" class="btn-danger btn-sm float-right mr-2" value="Delect Selected">
+        </div>
     </div>
+
+     @if (session('success'))
+         <div class="alert alert-success">
+             {{ session('success') }}
+         </div>
+     @endif
     <div class="card-body">
       <div class="table-responsive">
         @if(count($products)>0)
         <table class="table table-bordered" id="product-dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
+                <th>
+                        <input name="Selectall" id="Selectall" type="checkbox" value="" onclick="selectall(this.value)" /><span class="text">Select All</span>
+                </th>
               <th>S.N.</th>
               <th>Title</th>
               <th>Category</th>
@@ -29,6 +41,9 @@
           </thead>
           <tfoot>
             <tr>
+                <th  >
+                        <input name="Selectall" id="Selectall" type="checkbox" value="" onclick="selectall(this.value)" /><span class="text">Select All</span>
+                </th>
               <th>S.N.</th>
               <th>Title</th>
               <th>Category</th>
@@ -50,6 +65,9 @@
               $brands=DB::table('brands')->select('title')->where('id',$product->brand_id)->get();
               @endphp
                 <tr>
+                    <td width=10% style="padding-left:25px;padding-top:12px;" >
+                        <input name="STCODE" id="STCODE" type="checkbox"  value="" /><span class="text"></span>
+                    </td>
                     <td>{{$product->id}}</td>
                     <td>{{$product->title}}</td>
                     <td>{{$product->cat_info['title']}}

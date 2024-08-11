@@ -115,6 +115,9 @@
                     <option disabled value="flat">Flat</option>
                     <option selected  value="percent">Percent</option>
                 </select>
+                @error('discount')
+                <span class="text-danger">{{$message}}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="stock">Quantity <span class="text-danger">*</span></label>
