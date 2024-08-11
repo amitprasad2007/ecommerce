@@ -6,20 +6,12 @@
     <h5 class="card-header">Edit Product</h5>
     <div class="card-body">
       <form method="post" action="{{route('product.update',$product->id)}}" enctype="multipart/form-data">
-        @csrf 
+        @csrf
         @method('PATCH')
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Title <span class="text-danger">*</span></label>
           <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$product->title}}" class="form-control">
           @error('title')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="summary" class="col-form-label">Summary <span class="text-danger">*</span></label>
-          <textarea class="form-control" id="summary" name="summary">{{$product->summary}}</textarea>
-          @error('summary')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
@@ -35,7 +27,7 @@
 
         <div class="form-group">
           <label for="is_featured">Is Featured</label><br>
-          <input type="checkbox" name='is_featured' id='is_featured' value='{{$product->is_featured}}' {{(($product->is_featured) ? 'checked' : '')}}> Yes                        
+          <input type="checkbox" name='is_featured' id='is_featured' value='{{$product->is_featured}}' {{(($product->is_featured) ? 'checked' : '')}}> Yes
         </div>
               {{-- {{$categories}} --}}
 
@@ -48,7 +40,7 @@
               @endforeach
           </select>
         </div>
-        @php 
+        @php
           $sub_cat_info=DB::table('categories')->select('title')->where('id',$product->child_cat_id)->get();
         // dd($sub_cat_info);
 
@@ -58,9 +50,14 @@
           <label for="child_cat_id">Sub Category</label>
           <select name="child_cat_id" id="child_cat_id" class="form-control">
               <option value="">--Select any sub category--</option>
-              
           </select>
         </div>
+          <div class="form-group {{(($product->sub_child_cat_id)? '' : 'd-none')}}" id="sub_child_cat_div">
+              <label for="sub_child_cat_id">Sub Sub Category</label>
+              <select name="sub_child_cat_id" id="sub_child_cat_id" class="form-control">
+                  <option value="">--Select any sub sub category--</option>
+              </select>
+          </div>
 
         <div class="form-group">
           <label for="price" class="col-form-label">Price(NRS) <span class="text-danger">*</span></label>
@@ -81,8 +78,8 @@
           <label for="size">Size</label>
           <select name="size[]" class="form-control selectpicker"  multiple data-live-search="true">
               <option value="">--Select any size--</option>
-              @foreach($items as $item)              
-                @php 
+              @foreach($items as $item)
+                @php
                 $data=explode(',',$item->size);
                 // dd($data);
                 @endphp
@@ -135,7 +132,7 @@
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
-        
+
         <div class="form-group">
           <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
           <select name="status" class="form-control">
@@ -231,5 +228,52 @@
         if(child_cat_id!=null){
             $('#cat_id').change();
         }
+  var  sub_child_cat_id='{{$product->sub_child_cat_id}}';
+  // alert(child_cat_id);
+  $('#child_cat_id').change(function(){
+      var child_cat_id = $(this).val();
+      alert(child_cat_id);
+
+      if(child_cat_id !=null){
+          // ajax call
+          $.ajax({
+              url:"/admin/category/" + child_cat_id + "/subchild",
+              type:"POST",
+              data:{
+                  _token:"{{csrf_token()}}"
+              },
+              success:function(response){
+                  if(typeof(response)!='object'){
+                      response=$.parseJSON(response);
+                  }
+                  var html_option="<option value=''>----Select sub sub category----</option>";
+                  if(response.status){
+                      var data=response.data;
+                      if(response.data){
+                          $('#sub_child_cat_div').removeClass('d-none');
+                          $.each(data,function(id,title){
+                              html_option += "<option value='"+id+"' "+(sub_child_cat_id==id ? 'selected ' : '')+">"+title+"</option>";
+                          });
+                      }
+                      else{
+                          console.log('no response data');
+                      }
+                  }
+                  else{
+                      $('#sub_child_cat_div').addClass('d-none');
+                  }
+                  $('#sub_child_cat_div').html(html_option);
+
+              }
+          });
+      }
+      else{
+
+      }
+
+  });
+  if(sub_child_cat_id!=null){
+      $('#child_cat_id').change();
+  }
 </script>
 @endpush
