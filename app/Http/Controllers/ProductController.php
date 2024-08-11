@@ -179,7 +179,7 @@ class ProductController extends Controller
             'meta_title'=>'string|required',
             'meta_description'=>'string|required'
         ]);
-   // dd( $validatedData );
+   //dd( $validatedData );
         $data=$request->all();
        // $data['is_featured']=$request->input('is_featured',0);
 //        $size=$request->input('size');
@@ -233,5 +233,44 @@ class ProductController extends Controller
     {
         return view('backend.product.bulkupload');
     }
+    public function bulkUpload(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt',
+        ]);
+
+        $file = $request->file('csv_file');
+        $csvData = file_get_contents($file);
+        $rows = array_map('str_getcsv', explode("\n", $csvData));
+        $header = array_shift($rows);
+
+        foreach ($rows as $row) {
+            if (count($row) < count($header)) {
+                continue; // Skip rows with insufficient columns
+            }
+            $rowData = array_combine($header, $row);
+           // dd($rowData);
+            // Create a new product
+            Product::create([
+                'title' => $rowData['title'],
+                'slug' => $rowData['slug'],
+                'sku' => $rowData['sku'],
+                'description' => $rowData['description'],
+                'stock' => $rowData['stock'],
+                'status' => $rowData['status'],
+                'price' => $rowData['price'],
+                'discount' => $rowData['discount'],
+                'is_featured' => $rowData['is_featured'],
+                'todays_deal' => $rowData['todays_deal'],
+                'min_qty' => $rowData['min_qty'],
+                'tax' => $rowData['tax'],
+                'shipping_cost' => $rowData['shipping_cost'],
+                'purchase_price' => $rowData['purchase_price'],
+                'tags' => $rowData['tags']
+            ]);
+        }
+        return redirect()->route('product.index')->with('success', 'Products uploaded successfully!');
+    }
+
 
 }
